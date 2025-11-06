@@ -4,12 +4,12 @@ import cors from "cors";
 import { serve } from "inngest/express";
 import { clerkMiddleware } from "@clerk/express";
 
-import { ENV } from "./lib/env.js";
-import { connectDB } from "./lib/db.js";
-import { inngest, functions } from "./lib/inngest.js";
+import { ENV } from "./src/lib/env.js";
+import { connectDB } from "./src/lib/db.js";
+import { inngest, functions } from "./src/lib/inngest.js";
 
-import chatRoutes from "./routes/chatRoutes.js";
-import sessionRoutes from "./routes/sessionRoute.js";
+import chatRoutes from "./src/routes/chatRoutes.js";
+import sessionRoutes from "./src/routes/sessionRoute.js";
 
 const app = express();
 
