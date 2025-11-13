@@ -14,6 +14,7 @@ import OutputPanel from "../components/OutputPanel";
 import useStreamClient from "../hooks/useStreamClient";
 import { StreamCall, StreamVideo } from "@stream-io/video-react-sdk";
 import VideoCallUI from "../components/VideoCallUI";
+import toast from "react-hot-toast";
 
 function SessionPage() {
   const navigate = useNavigate();
@@ -88,12 +89,49 @@ function SessionPage() {
     setIsRunning(false);
   };
 
-  const handleEndSession = () => {
-    if (confirm("Are you sure you want to end this session? All participants will be notified.")) {
-      // this will navigate the HOST to dashboard
-      endSessionMutation.mutate(id, { onSuccess: () => navigate("/dashboard") });
-    }
-  };
+  // const handleEndSession = () => {
+  //   if (confirm("Are you sure you want to end this session? All participants will be notified.")) {
+  //     // this will navigate the HOST to dashboard
+  //     endSessionMutation.mutate(id, { onSuccess: () => navigate("/dashboard") });
+  //   }
+  // };
+
+
+
+  
+
+const handleEndSession = () => {
+  toast((t) => (
+    <div className="flex flex-col gap-2">
+      <p className="text-sm font-medium">Are you sure you want to end this session?</p>
+
+      <div className="flex justify-end gap-3 mt-1">
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="text-gray-500 text-sm"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={() => {
+            endSessionMutation.mutate(id, {
+              onSuccess: () => {
+                toast.dismiss(t.id);
+                toast.success("Session ended successfully!");
+                navigate("/dashboard");
+              }
+            });
+          }}
+          className="text-red-600 font-semibold text-sm"
+        >
+          End Session
+        </button>
+      </div>
+    </div>
+  ));
+};
+
 
   return (
     <div className="h-screen bg-base-100 flex flex-col">
